@@ -1,0 +1,118 @@
+name: Manual nRF52 Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: 'nRF52 target to build'
+        required: true
+        default: 'nrf52_promicro_diy_tcxo'
+        type: choice
+        options:
+          - nrf52_promicro_diy_tcxo
+          - nrf52_promicro_diy-inkhud
+          - rak4631
+          - nano-g2-ultra
+          - wio-tracker-wm1110
+          - canaryone
+          - heltec-mesh-node-t114
+          - tracker-t1000-e
+          - t-echo
+      version:
+        description: 'Release version (e.g., v1.0.0)'
+        required: true
+        default: 'v1.0.0'
+        type: string
+      create_release:
+        description: 'Create GitHub release'
+        required: true
+        default: true
+        type: boolean
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+
+    - name: Install PlatformIO Core
+      run: |
+        pip install platformio
+
+    - name: Install system dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y git build-essential
+
+    - name: Set up build environment
+      run: |
+        mkdir -p release/
+        echo "PLATFORMIO_BUILD_FLAGS=" >> $GITHUB_ENV
+        chmod +x bin/build-nrf52.sh
+        chmod +x bin/buildinfo.py
+        chmod +x bin/uf2conv.py
+        chmod +x bin/mergehex
+
+    - name: Build nRF52 firmware
+      run: |
+        echo "Building target: ${{ github.event.inputs.target }}"
+        ./bin/build-nrf52.sh ${{ github.event.inputs.target }}
+        echo "Build completed. Files in release/:"
+        ls -la release/
+
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: nrf52-firmware-${{ github.event.inputs.target }}-${{ github.sha }}
+        path: release/
+        retention-days: 30
+
+    - name: Create GitHub Release
+      if: github.event.inputs.create_release == 'true'
+      uses: softprops/action-gh-release@v1
+      with:
+        files: |
+          release/*.uf2
+          release/*.hex
+          release/*.zip
+          release/*.elf
+        tag_name: ${{ github.event.inputs.version }}
+        name: nRF52 Firmware ${{ github.event.inputs.target }} ${{ github.event.inputs.version }}
+        body: |
+          ## nRF52 固件发布 - ${{ github.event.inputs.target }}
+          
+          ### 构建信息
+          - **目标设备**: ${{ github.event.inputs.target }}
+          - **版本**: ${{ github.event.inputs.version }}
+          - **提交**: ${{ github.sha }}
+          - **构建时间**: ${{ github.run_number }}
+          
+          ### 固件文件
+          - `.uf2` - UF2格式固件，可直接拖拽到设备
+          - `.hex` - HEX格式固件，用于传统烧录工具
+          - `.zip` - OTA更新包
+          - `.elf` - ELF调试文件
+          
+          ### 安装说明
+          1. 下载对应的固件文件
+          2. 将设备置于DFU模式
+          3. 拖拽`.uf2`文件到设备或使用烧录工具烧录`.hex`文件
+          
+          ### 设备特定说明
+          **${{ github.event.inputs.target }}**:
+          - 支持的功能和特性
+          - 硬件要求
+          - 特殊配置说明
+        draft: false
+        prerelease: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

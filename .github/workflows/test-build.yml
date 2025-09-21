@@ -1,0 +1,93 @@
+name: Test nRF52 Build
+
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: 'nRF52 target to test build'
+        required: true
+        default: 'nrf52_promicro_diy_tcxo'
+        type: choice
+        options:
+          - nrf52_promicro_diy_tcxo
+          - nrf52_promicro_diy-inkhud
+          - rak4631
+          - nano-g2-ultra
+          - wio-tracker-wm1110
+          - canaryone
+          - heltec-mesh-node-t114
+          - tracker-t1000-e
+          - t-echo
+
+jobs:
+  test-build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+
+    - name: Install PlatformIO Core
+      run: |
+        pip install platformio
+
+    - name: Install system dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y git build-essential
+
+    - name: Set up build environment
+      run: |
+        mkdir -p release/
+        echo "PLATFORMIO_BUILD_FLAGS=" >> $GITHUB_ENV
+        chmod +x bin/build-nrf52.sh
+        chmod +x bin/buildinfo.py
+        chmod +x bin/uf2conv.py
+        chmod +x bin/mergehex
+
+    - name: Test build environment
+      run: |
+        echo "Testing build environment..."
+        echo "Python version:"
+        python --version
+        echo "PlatformIO version:"
+        pio --version
+        echo "Git version:"
+        git --version
+        echo "Build tools:"
+        gcc --version | head -1
+        make --version | head -1
+
+    - name: Test build script syntax
+      run: |
+        echo "Testing build script syntax..."
+        bash -n bin/build-nrf52.sh
+        echo "Build script syntax is valid"
+
+    - name: Test Python scripts
+      run: |
+        echo "Testing Python scripts..."
+        python -m py_compile bin/buildinfo.py
+        python -m py_compile bin/uf2conv.py
+        echo "Python scripts are valid"
+
+    - name: Dry run build
+      run: |
+        echo "Performing dry run build for ${{ github.event.inputs.target }}..."
+        # 只进行编译检查，不生成最终文件
+        pio run --environment ${{ github.event.inputs.target }} --target checkprogsize
+        
+    - name: Build summary
+      run: |
+        echo "Build test completed successfully!"
+        echo "Target: ${{ github.event.inputs.target }}"
+        echo "Environment: Ubuntu 20.04"
+        echo "PlatformIO: $(pio --version)"
+        echo "Python: $(python --version)"
