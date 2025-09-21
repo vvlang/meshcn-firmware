@@ -120,6 +120,22 @@ ButtonThread *BackButtonThread = nullptr;
 ButtonThread *CancelButtonThread = nullptr;
 #endif
 
+#if defined(BUTTON_UP_PIN)
+ButtonThread *UpButtonThread = nullptr;
+#endif
+
+#if defined(BUTTON_DOWN_PIN)
+ButtonThread *DownButtonThread = nullptr;
+#endif
+
+#if defined(BUTTON_LEFT_PIN)
+ButtonThread *LeftButtonThread = nullptr;
+#endif
+
+#if defined(BUTTON_RIGHT_PIN)
+ButtonThread *RightButtonThread = nullptr;
+#endif
+
 #endif
 
 #include "AmbientLightingThread.h"
@@ -1096,10 +1112,10 @@ void setup()
             BaseType_t higherWake = 0;
             mainDelay.interruptFromISR(&higherWake);
         };
-        userConfig.singlePress = INPUT_BROKER_USER_PRESS;
-        userConfig.longPress = INPUT_BROKER_SELECT;
-        userConfig.longPressTime = 500;
-        userConfig.longLongPress = INPUT_BROKER_SHUTDOWN;
+        userConfig.singlePress = INPUT_BROKER_SELECT;
+        userConfig.longPress = INPUT_BROKER_SHUTDOWN;
+        userConfig.longPressTime = 3000;
+        userConfig.longLongPress = INPUT_BROKER_NONE;
         UserButtonThread->initButton(userConfig);
     } else {
         ButtonConfig userConfigNoScreen;
@@ -1113,14 +1129,89 @@ void setup()
             BaseType_t higherWake = 0;
             mainDelay.interruptFromISR(&higherWake);
         };
-        userConfigNoScreen.singlePress = INPUT_BROKER_USER_PRESS;
-        userConfigNoScreen.longPress = INPUT_BROKER_NONE;
-        userConfigNoScreen.longPressTime = 500;
-        userConfigNoScreen.longLongPress = INPUT_BROKER_SHUTDOWN;
-        userConfigNoScreen.doublePress = INPUT_BROKER_SEND_PING;
-        userConfigNoScreen.triplePress = INPUT_BROKER_GPS_TOGGLE;
+        userConfigNoScreen.singlePress = INPUT_BROKER_SELECT;
+        userConfigNoScreen.longPress = INPUT_BROKER_SHUTDOWN;
+        userConfigNoScreen.longPressTime = 3000;
+        userConfigNoScreen.longLongPress = INPUT_BROKER_NONE;
+        userConfigNoScreen.doublePress = INPUT_BROKER_NONE;
+        userConfigNoScreen.triplePress = INPUT_BROKER_NONE;
         UserButtonThread->initButton(userConfigNoScreen);
     }
+#endif
+
+// Direction buttons initialization
+#if defined(BUTTON_UP_PIN)
+    UpButtonThread = new ButtonThread("UpButton");
+    ButtonConfig upConfig;
+    upConfig.pinNumber = BUTTON_UP_PIN;
+    upConfig.activeLow = true;
+    upConfig.activePullup = true;
+    upConfig.pullupSense = pullup_sense;
+    upConfig.intRoutine = []() {
+        UpButtonThread->userButton.tick();
+        runASAP = true;
+        BaseType_t higherWake = 0;
+        mainDelay.interruptFromISR(&higherWake);
+    };
+    upConfig.singlePress = INPUT_BROKER_UP;
+    upConfig.longPress = INPUT_BROKER_GPS_TOGGLE;
+    upConfig.longPressTime = 3000;
+    UpButtonThread->initButton(upConfig);
+#endif
+
+#if defined(BUTTON_DOWN_PIN)
+    DownButtonThread = new ButtonThread("DownButton");
+    ButtonConfig downConfig;
+    downConfig.pinNumber = BUTTON_DOWN_PIN;
+    downConfig.activeLow = true;
+    downConfig.activePullup = true;
+    downConfig.pullupSense = pullup_sense;
+    downConfig.intRoutine = []() {
+        DownButtonThread->userButton.tick();
+        runASAP = true;
+        BaseType_t higherWake = 0;
+        mainDelay.interruptFromISR(&higherWake);
+    };
+    downConfig.singlePress = INPUT_BROKER_DOWN;
+    downConfig.longPress = INPUT_BROKER_SEND_PING;
+    downConfig.longPressTime = 3000;
+    DownButtonThread->initButton(downConfig);
+#endif
+
+#if defined(BUTTON_LEFT_PIN)
+    LeftButtonThread = new ButtonThread("LeftButton");
+    ButtonConfig leftConfig;
+    leftConfig.pinNumber = BUTTON_LEFT_PIN;
+    leftConfig.activeLow = true;
+    leftConfig.activePullup = true;
+    leftConfig.pullupSense = pullup_sense;
+    leftConfig.intRoutine = []() {
+        LeftButtonThread->userButton.tick();
+        runASAP = true;
+        BaseType_t higherWake = 0;
+        mainDelay.interruptFromISR(&higherWake);
+    };
+    leftConfig.singlePress = INPUT_BROKER_LEFT;
+    leftConfig.longPress = INPUT_BROKER_NONE;
+    LeftButtonThread->initButton(leftConfig);
+#endif
+
+#if defined(BUTTON_RIGHT_PIN)
+    RightButtonThread = new ButtonThread("RightButton");
+    ButtonConfig rightConfig;
+    rightConfig.pinNumber = BUTTON_RIGHT_PIN;
+    rightConfig.activeLow = true;
+    rightConfig.activePullup = true;
+    rightConfig.pullupSense = pullup_sense;
+    rightConfig.intRoutine = []() {
+        RightButtonThread->userButton.tick();
+        runASAP = true;
+        BaseType_t higherWake = 0;
+        mainDelay.interruptFromISR(&higherWake);
+    };
+    rightConfig.singlePress = INPUT_BROKER_RIGHT;
+    rightConfig.longPress = INPUT_BROKER_NONE;
+    RightButtonThread->initButton(rightConfig);
 #endif
 
 #endif

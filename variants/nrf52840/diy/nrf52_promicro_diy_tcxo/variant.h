@@ -36,12 +36,12 @@ NRF52 PRO MICRO PIN ASSIGNMENT
 | P1.00 | BUTTON_PIN  |     | P1.13    | CS           | CS    |
 | P0.11 | SCL         |     | P1.11    | SCK          | SCK   |
 | P1.04 | SDA         |     | P0.10    | DIO1/IRQ     | DIO1  |
-| P1.06 | Free pin    |     | P0.09    | RESET        | RST   |
+| P1.06 | BUTTON_LEFT  |     | P0.09   | RESET        | RST   |
 |       |             |     |          |              |       |
 |       | Mid board   |     |          | Internal     |       |
-| P1.01 | Free pin    |     | 0.15     | LED          |       |
-| P1.02 | Free pin    |     | 0.13     | 3V3_EN       |       |
-| P1.07 | Free pin    |     |          |              |       |
+| P1.01 | BUTTON_UP   |     | 0.15    | LED          |       |
+| P1.02 | BUTTON_DOWN |     | 0.13    | 3V3_EN       |       |
+| P1.07 | BUTTON_RIGHT    |     |          |              |       |
 */
 
 // Number of pins defined in PinDescription array
@@ -86,8 +86,12 @@ NRF52 PRO MICRO PIN ASSIGNMENT
 #define LED_BLUE PIN_LED1
 #define LED_STATE_ON 1 // State when LED is lit
 
-// Button
-#define BUTTON_PIN (32 + 0) // P1.00
+// Buttons
+#define BUTTON_PIN (32 + 0) // P1.00 - Main button
+#define BUTTON_UP_PIN (32 + 1) // P1.01 - Button Up
+#define BUTTON_DOWN_PIN (32 + 2) // P1.02 - Button Down  
+#define BUTTON_LEFT_PIN (32 + 6) // P1.06 - Button Left
+#define BUTTON_RIGHT_PIN (32 + 7) // P1.07 - Button Right
 
 // GPS
 #define PIN_GPS_TX (0 + 22) // P0.22
