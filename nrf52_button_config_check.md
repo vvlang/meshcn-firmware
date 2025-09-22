@@ -81,8 +81,8 @@
 
 ### P1.06 左按钮 (BUTTON_LEFT_PIN) - 新增
 - 短按: `INPUT_BROKER_LEFT` (向左导航)
-- 长按: `INPUT_BROKER_NONE` (无功能)
-- 双击: `INPUT_BROKER_BOOTLOADER` (进入刷机模式)
+- 长按: `INPUT_BROKER_BOOTLOADER` (进入刷机模式)
+- 长按时间: 3000ms (3秒)
 
 ### P1.07 右按钮 (BUTTON_RIGHT_PIN) - 新增
 - 短按: `INPUT_BROKER_RIGHT` (向右导航)
@@ -212,7 +212,7 @@ rightConfig.longPress = INPUT_BROKER_NONE;
 | **P1.00** | 确认选择 | 关机 | 重启设备 ✅ | 3秒 |
 | **P1.01** | 向上导航 | 切换GPS模式 | 无 | 3秒 |
 | **P1.02** | 向下导航 | 发送adhoc ping | 无 | 3秒 |
-| **P1.06** | 向左导航 | 无功能 | 进入刷机模式 | - |
+| **P1.06** | 向左导航 | 进入刷机模式 | 无 | 3秒 |
 | **P1.07** | 向右导航 | 无功能 | 无 | - |
 
 ### 事件处理
@@ -258,7 +258,7 @@ cd /Users/vvlang/Library/CloudStorage/SynologyDrive-soft/LoRa/meshcn-firmware
 
 ##### P1.06 左按钮测试
 - **短按**: 向左导航是否正常
-- **双击**: 进入刷机模式是否正常 (设备会重启进入DFU模式)
+- **长按 (3秒)**: 进入刷机模式是否正常 (设备会重启进入DFU模式)
 
 ##### P1.07 右按钮测试
 - **短按**: 向右导航是否正常

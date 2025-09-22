@@ -1193,8 +1193,8 @@ void setup()
         mainDelay.interruptFromISR(&higherWake);
     };
     leftConfig.singlePress = INPUT_BROKER_LEFT;
-    leftConfig.longPress = INPUT_BROKER_NONE;
-    leftConfig.doublePress = INPUT_BROKER_BOOTLOADER;
+    leftConfig.longPress = INPUT_BROKER_BOOTLOADER;
+    leftConfig.longPressTime = 3000;
     LeftButtonThread->initButton(leftConfig);
 #endif
 
