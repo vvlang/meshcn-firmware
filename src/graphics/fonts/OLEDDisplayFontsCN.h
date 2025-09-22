@@ -1,6 +1,8 @@
 #ifndef OLEDDISPLAYFONTSCN_h
 #define OLEDDISPLAYFONTSCN_h
 
+#include <stdint.h>
+
 #ifdef ARDUINO
 #include <Arduino.h>
 #elif __MBED__
