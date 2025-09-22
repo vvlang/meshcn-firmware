@@ -564,6 +564,64 @@ class Screen : public concurrency::OSThread
 
 #endif
 
+#if defined(OLED_CN)
+
+        // 中文UTF-8处理
+        // 中文UTF-8使用3字节编码，首字节范围：0xE4-0xE9
+        switch (last) {
+        case 0xE4: {
+            SKIPREST = false;
+            // 处理中文UTF-8字符，映射到字体索引
+            if (ch >= 0x80 && ch <= 0xBF) {
+                // 这里需要根据实际字体数据映射
+                // 暂时返回一个占位符
+                return (uint8_t)(128 + (ch & 0x3F)); // 映射到128-191范围
+            }
+            break;
+        }
+        case 0xE5: {
+            SKIPREST = false;
+            if (ch >= 0x80 && ch <= 0xBF) {
+                return (uint8_t)(192 + (ch & 0x3F)); // 映射到192-255范围
+            }
+            break;
+        }
+        case 0xE6: {
+            SKIPREST = false;
+            if (ch >= 0x80 && ch <= 0xBF) {
+                return (uint8_t)(256 + (ch & 0x3F)); // 映射到扩展范围
+            }
+            break;
+        }
+        case 0xE7: {
+            SKIPREST = false;
+            if (ch >= 0x80 && ch <= 0xBF) {
+                return (uint8_t)(320 + (ch & 0x3F)); // 映射到扩展范围
+            }
+            break;
+        }
+        case 0xE8: {
+            SKIPREST = false;
+            if (ch >= 0x80 && ch <= 0xBF) {
+                return (uint8_t)(384 + (ch & 0x3F)); // 映射到扩展范围
+            }
+            break;
+        }
+        case 0xE9: {
+            SKIPREST = false;
+            if (ch >= 0x80 && ch <= 0xBF) {
+                return (uint8_t)(448 + (ch & 0x3F)); // 映射到扩展范围
+            }
+            break;
+        }
+        }
+
+        // 过滤中文UTF-8前缀字符
+        if (ch == 0xE4 || ch == 0xE5 || ch == 0xE6 || ch == 0xE7 || ch == 0xE8 || ch == 0xE9)
+            return (uint8_t)0;
+
+#endif
+
         // If we already returned an unconvertable-character symbol for this unconvertable-character sequence, return NULs for the
         // rest of it
         if (SKIPREST)

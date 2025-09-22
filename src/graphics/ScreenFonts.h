@@ -16,6 +16,10 @@
 #include "graphics/fonts/OLEDDisplayFontsCS.h"
 #endif
 
+#ifdef OLED_CN
+#include "graphics/fonts/OLEDDisplayFontsCN.h"
+#endif
+
 #if defined(CROWPANEL_ESP32S3_5_EPAPER) && defined(USE_EINK)
 #include "graphics/fonts/EinkDisplayFonts.h"
 #endif
@@ -32,7 +36,11 @@
 #ifdef OLED_CS
 #define FONT_SMALL_LOCAL ArialMT_Plain_10_CS
 #else
+#ifdef OLED_CN
+#define FONT_SMALL_LOCAL ArialMT_Plain_10_CN // Height: 13
+#else
 #define FONT_SMALL_LOCAL ArialMT_Plain_10 // Height: 13
+#endif
 #endif
 #endif
 #endif
@@ -49,7 +57,11 @@
 #ifdef OLED_CS
 #define FONT_MEDIUM_LOCAL ArialMT_Plain_16_CS
 #else
+#ifdef OLED_CN
+#define FONT_MEDIUM_LOCAL ArialMT_Plain_16_CN // Height: 19
+#else
 #define FONT_MEDIUM_LOCAL ArialMT_Plain_16 // Height: 19
+#endif
 #endif
 #endif
 #endif
@@ -66,7 +78,11 @@
 #ifdef OLED_CS
 #define FONT_LARGE_LOCAL ArialMT_Plain_24_CS // Height: 28
 #else
+#ifdef OLED_CN
+#define FONT_LARGE_LOCAL ArialMT_Plain_24_CN // Height: 28
+#else
 #define FONT_LARGE_LOCAL ArialMT_Plain_24 // Height: 28
+#endif
 #endif
 #endif
 #endif
