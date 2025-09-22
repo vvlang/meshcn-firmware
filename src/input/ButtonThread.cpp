@@ -95,14 +95,15 @@ bool ButtonThread::initButton(const ButtonConfig &config)
 #ifdef USE_EINK
     userButton.setDebounceMs(0);
 #else
-    userButton.setDebounceMs(1);
+    userButton.setDebounceMs(50);  // 增加防抖时间到50ms
 #endif
     userButton.setPressMs(_longPressTime);
-
+    
+    // 设置双击检测时间
     if (screen) {
-        userButton.setClickMs(20);
+        userButton.setClickMs(600);  // 有屏幕时使用600ms
     } else {
-        userButton.setClickMs(BUTTON_CLICK_MS);
+        userButton.setClickMs(600);  // 无屏幕时也使用600ms，确保双击检测可靠
     }
     attachButtonInterrupts();
 #ifdef ARCH_ESP32
