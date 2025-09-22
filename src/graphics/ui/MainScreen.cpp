@@ -1,10 +1,10 @@
 #include "MainScreen.h"
-#include "graphics/OLEDDisplay.h"
-#include "graphics/OLEDDisplayUi.h"
-#include "input/InputBroker.h"
-#include "configuration.h"
-#include "NodeDB.h"
-#include "PowerFSM.h"
+#include <OLEDDisplay.h>
+#include <OLEDDisplayUi.h>
+#include "../../input/InputBroker.h"
+#include "../configuration.h"
+#include "../../mesh/NodeDB.h"
+#include "../../PowerFSM.h"
 
 #if HAS_SCREEN
 

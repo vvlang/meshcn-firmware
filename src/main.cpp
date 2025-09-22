@@ -1194,6 +1194,7 @@ void setup()
     };
     leftConfig.singlePress = INPUT_BROKER_LEFT;
     leftConfig.longPress = INPUT_BROKER_NONE;
+    leftConfig.doublePress = INPUT_BROKER_BOOTLOADER;
     LeftButtonThread->initButton(leftConfig);
 #endif
 

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "configuration.h"
-#include "graphics/OLEDDisplay.h"
+#include "../configuration.h"
+#include <OLEDDisplay.h>
 
 #if HAS_SCREEN
 

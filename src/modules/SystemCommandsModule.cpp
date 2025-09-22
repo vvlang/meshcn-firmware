@@ -114,6 +114,21 @@ int SystemCommandsModule::handleInputEvent(const InputEvent *event)
     case INPUT_BROKER_SHUTDOWN:
         shutdownAtMsec = millis();
         return true;
+    // Bootloader mode
+    case INPUT_BROKER_BOOTLOADER: {
+        LOG_WARN("Entering Bootloader Mode");
+        IF_SCREEN(screen->forceDisplay(); screen->showSimpleBanner("Entering\nBootloader Mode", 3000);)
+        // Enter DFU mode for firmware update
+        #ifdef NRF52_SERIES
+        // Set magic number to enter bootloader on next reset
+        constexpr uint32_t DFU_MAGIC_BOOTLOADER = 0x4e;
+        sd_power_gpregret_clr(0, 0xFF);
+        sd_power_gpregret_set(0, DFU_MAGIC_BOOTLOADER);
+        // Reset to enter bootloader
+        NVIC_SystemReset();
+        #endif
+        return true;
+    }
 
     default:
         // No other input events handled here
