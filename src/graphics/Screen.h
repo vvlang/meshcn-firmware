@@ -393,6 +393,7 @@ class Screen : public concurrency::OSThread
         if (ch == 0xC2 || ch == 0xC3)
             return (uint8_t)0;
 
+
 #if defined(OLED_PL)
 
         switch (last) {
