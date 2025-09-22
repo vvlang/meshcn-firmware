@@ -1116,7 +1116,7 @@ void setup()
         userConfig.longPress = INPUT_BROKER_SHUTDOWN;
         userConfig.longPressTime = 3000;
         userConfig.longLongPress = INPUT_BROKER_NONE;
-        userConfig.doublePress = INPUT_BROKER_MSG_REBOOT;
+        userConfig.doublePress = INPUT_BROKER_ANYKEY;
         UserButtonThread->initButton(userConfig);
     } else {
         ButtonConfig userConfigNoScreen;
@@ -1134,7 +1134,7 @@ void setup()
         userConfigNoScreen.longPress = INPUT_BROKER_SHUTDOWN;
         userConfigNoScreen.longPressTime = 3000;
         userConfigNoScreen.longLongPress = INPUT_BROKER_NONE;
-        userConfigNoScreen.doublePress = INPUT_BROKER_MSG_REBOOT;
+        userConfigNoScreen.doublePress = INPUT_BROKER_ANYKEY;
         userConfigNoScreen.triplePress = INPUT_BROKER_NONE;
         UserButtonThread->initButton(userConfigNoScreen);
     }

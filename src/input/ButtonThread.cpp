@@ -221,7 +221,9 @@ int32_t ButtonThread::runOnce()
             waitingForLongPress = false;
 
             evt.inputEvent = _doublePress;
-            // evt.kbchar = _doublePress;
+            if (_doublePress == INPUT_BROKER_ANYKEY) {
+                evt.kbchar = INPUT_BROKER_MSG_REBOOT;
+            }
             this->notifyObservers(&evt);
             playComboTune();
 
