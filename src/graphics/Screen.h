@@ -73,11 +73,7 @@ class Screen
 #include "gps/GeoCoord.h"
 #include "graphics/ScreenFonts.h"
 
-#ifdef USE_U8G2_SSD1306
-#include "U8g2SSD1306Display.h"
-#elif defined(USE_U8G2_SH1106)
-#include "U8g2SH1106Display.h"
-#elif defined(USE_ST7567)
+#if defined(USE_ST7567)
 #include <ST7567Wire.h>
 #elif defined(USE_SH1106) || defined(USE_SH1107) || defined(USE_SH1107_128_64)
 #include <SH1106Wire.h>

@@ -16,6 +16,10 @@
 #include "graphics/fonts/OLEDDisplayFontsCS.h"
 #endif
 
+#ifdef OLED_CN
+#include "graphics/fonts/OLEDDisplayFontsCN.h"
+#endif
+
 
 #if defined(CROWPANEL_ESP32S3_5_EPAPER) && defined(USE_EINK)
 #include "graphics/fonts/EinkDisplayFonts.h"

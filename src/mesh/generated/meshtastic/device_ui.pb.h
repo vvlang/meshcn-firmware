@@ -69,9 +69,7 @@ typedef enum _meshtastic_Language {
     /* Czech */
     meshtastic_Language_CZECH = 18,
     /* Simplified Chinese (experimental) */
-    meshtastic_Language_SIMPLIFIED_CHINESE = 30,
-    /* Traditional Chinese (experimental) */
-    meshtastic_Language_TRADITIONAL_CHINESE = 31
+    meshtastic_Language_SIMPLIFIED_CHINESE = 30
 } meshtastic_Language;
 
 /* Struct definitions */
@@ -180,8 +178,8 @@ extern "C" {
 #define _meshtastic_Theme_ARRAYSIZE ((meshtastic_Theme)(meshtastic_Theme_RED+1))
 
 #define _meshtastic_Language_MIN meshtastic_Language_ENGLISH
-#define _meshtastic_Language_MAX meshtastic_Language_TRADITIONAL_CHINESE
-#define _meshtastic_Language_ARRAYSIZE ((meshtastic_Language)(meshtastic_Language_TRADITIONAL_CHINESE+1))
+#define _meshtastic_Language_MAX meshtastic_Language_SIMPLIFIED_CHINESE
+#define _meshtastic_Language_ARRAYSIZE ((meshtastic_Language)(meshtastic_Language_SIMPLIFIED_CHINESE+1))
 
 #define meshtastic_DeviceUIConfig_theme_ENUMTYPE meshtastic_Theme
 #define meshtastic_DeviceUIConfig_language_ENUMTYPE meshtastic_Language
