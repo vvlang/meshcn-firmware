@@ -926,9 +926,12 @@ void Screen::setFrames(FrameFocus focus)
     normalFrames[numframes++] = graphics::UIRenderer::drawDeviceFocused;
     indicatorIcons.push_back(icon_home);
 
-    fsi.positions.textMessage = numframes;
-    normalFrames[numframes++] = graphics::MessageRenderer::drawTextMessageFrame;
-    indicatorIcons.push_back(icon_mail);
+    // Only add message frame if there's a message to show
+    if (devicestate.has_rx_text_message && willInsertTextMessage) {
+        fsi.positions.textMessage = numframes;
+        normalFrames[numframes++] = graphics::MessageRenderer::drawTextMessageFrame;
+        indicatorIcons.push_back(icon_mail);
+    }
 
 #ifndef USE_EINK
     fsi.positions.nodelist = numframes;

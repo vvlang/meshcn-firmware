@@ -3,6 +3,7 @@
 #include <OLEDDisplay.h>
 #include <U8g2lib.h>
 #include <stdint.h>
+#include "U8g2ChineseFonts.h"
 
 /**
  * An adapter class that allows using the U8g2 library as if it was an OLEDDisplay implementation.
@@ -36,9 +37,23 @@ class U8g2Display : public OLEDDisplay
     // Set detected status
     void setDetected(uint8_t detected);
     
-    // Text drawing methods to use U8g2's Chinese font support
-    void drawString(int16_t x, int16_t y, String text);
-    void drawString(int16_t x, int16_t y, const char* text);
+           // Text drawing methods to use U8g2's CJK font support
+           void drawString(int16_t x, int16_t y, String text);
+           void drawString(int16_t x, int16_t y, const char* text);
+           
+           // CJK-specific drawing methods
+           void drawCJKString(int16_t x, int16_t y, String text, CJKLanguage language = CJKLanguage::AUTO, CJKFontSize size = CJKFontSize::MEDIUM);
+           void drawCJKString(int16_t x, int16_t y, const char* text, CJKLanguage language = CJKLanguage::AUTO, CJKFontSize size = CJKFontSize::MEDIUM);
+           void drawChineseString(int16_t x, int16_t y, String text, CJKFontSize size = CJKFontSize::MEDIUM);
+           void drawChineseString(int16_t x, int16_t y, const char* text, CJKFontSize size = CJKFontSize::MEDIUM);
+           void drawJapaneseString(int16_t x, int16_t y, String text, CJKFontSize size = CJKFontSize::MEDIUM);
+           void drawJapaneseString(int16_t x, int16_t y, const char* text, CJKFontSize size = CJKFontSize::MEDIUM);
+           void drawKoreanString(int16_t x, int16_t y, String text, CJKFontSize size = CJKFontSize::MEDIUM);
+           void drawKoreanString(int16_t x, int16_t y, const char* text, CJKFontSize size = CJKFontSize::MEDIUM);
+           
+           // CJK string width calculation
+           int16_t getCJKStringWidth(String text, CJKLanguage language = CJKLanguage::AUTO, CJKFontSize size = CJKFontSize::MEDIUM);
+           int16_t getCJKStringWidth(const char* text, CJKLanguage language = CJKLanguage::AUTO, CJKFontSize size = CJKFontSize::MEDIUM);
     
     // Get U8g2 object for direct access
     U8G2* getU8g2() { return u8g2; }

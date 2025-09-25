@@ -24,6 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "configuration.h"
 #if HAS_SCREEN
 #include "MessageRenderer.h"
+#include "MessageRendererU8g2.h"
 
 // Core includes
 #include "NodeDB.h"
@@ -63,6 +64,12 @@ static std::vector<int> cachedHeights;
 
 void drawStringWithEmotes(OLEDDisplay *display, int x, int y, const std::string &line, const Emote *emotes, int emoteCount)
 {
+    // 检查是否是U8g2显示器，如果是则使用U8g2优化版本
+    #if defined(USE_U8G2_SSD1306) || defined(USE_U8G2_SH1106)
+    MessageRendererU8g2::drawStringWithEmotesU8g2(display, x, y, line, emotes, emoteCount);
+    return;
+    #endif
+
     int cursorX = x;
     const int fontHeight = FONT_HEIGHT_SMALL;
 
@@ -427,6 +434,11 @@ void drawTextMessageFrame(OLEDDisplay *display, OLEDDisplayUiState *state, int16
 
 std::vector<std::string> generateLines(OLEDDisplay *display, const char *headerStr, const char *messageBuf, int textWidth)
 {
+    // 检查是否是U8g2显示器，如果是则使用U8g2优化版本
+    #if defined(USE_U8G2_SSD1306) || defined(USE_U8G2_SH1106)
+    return MessageRendererU8g2::generateLinesU8g2(display, headerStr, messageBuf, textWidth);
+    #endif
+
     std::vector<std::string> lines;
     lines.push_back(std::string(headerStr)); // Header line is always first
 
@@ -509,6 +521,12 @@ std::vector<int> calculateLineHeights(const std::vector<std::string> &lines, con
 void renderMessageContent(OLEDDisplay *display, const std::vector<std::string> &lines, const std::vector<int> &rowHeights, int x,
                           int yOffset, int scrollBottom, const Emote *emotes, int numEmotes, bool isInverted, bool isBold)
 {
+    // 检查是否是U8g2显示器，如果是则使用U8g2优化版本
+    #if defined(USE_U8G2_SSD1306) || defined(USE_U8G2_SH1106)
+    MessageRendererU8g2::renderMessageContentU8g2(display, lines, rowHeights, x, yOffset, scrollBottom, emotes, numEmotes, isInverted, isBold);
+    return;
+    #endif
+
     for (size_t i = 0; i < lines.size(); ++i) {
         int lineY = yOffset;
         for (size_t j = 0; j < i; ++j)

@@ -113,3 +113,122 @@ void U8g2Display::initDisplay()
     // This is a pure virtual function that must be implemented by derived classes
     // Each specific display type will implement this differently
 }
+
+// CJK-specific drawing methods
+void U8g2Display::drawCJKString(int16_t x, int16_t y, String text, CJKLanguage language, CJKFontSize size)
+{
+    if (!u8g2 || !isConnected) {
+        return;
+    }
+
+    ::drawCJKString(u8g2, x, y, text, language, size);
+}
+
+void U8g2Display::drawCJKString(int16_t x, int16_t y, const char* text, CJKLanguage language, CJKFontSize size)
+{
+    if (!u8g2 || !isConnected) {
+        return;
+    }
+
+    ::drawCJKString(u8g2, x, y, text, language, size);
+}
+
+void U8g2Display::drawChineseString(int16_t x, int16_t y, String text, CJKFontSize size)
+{
+    if (!u8g2 || !isConnected) {
+        return;
+    }
+
+    // 设置中文字体
+    setupChineseFont(u8g2);
+    
+    // 绘制文本
+    u8g2->drawUTF8(x, y, text.c_str());
+}
+
+void U8g2Display::drawChineseString(int16_t x, int16_t y, const char* text, CJKFontSize size)
+{
+    if (!u8g2 || !isConnected) {
+        return;
+    }
+
+    // 设置中文字体
+    setupChineseFont(u8g2);
+    
+    // 绘制文本
+    u8g2->drawUTF8(x, y, text);
+}
+
+void U8g2Display::drawJapaneseString(int16_t x, int16_t y, String text, CJKFontSize size)
+{
+    if (!u8g2 || !isConnected) {
+        return;
+    }
+
+    // 设置日文字体
+    setupJapaneseFont(u8g2, size);
+    
+    // 绘制文本
+    u8g2->drawUTF8(x, y, text.c_str());
+}
+
+void U8g2Display::drawJapaneseString(int16_t x, int16_t y, const char* text, CJKFontSize size)
+{
+    if (!u8g2 || !isConnected) {
+        return;
+    }
+
+    // 设置日文字体
+    setupJapaneseFont(u8g2, size);
+    
+    // 绘制文本
+    u8g2->drawUTF8(x, y, text);
+}
+
+void U8g2Display::drawKoreanString(int16_t x, int16_t y, String text, CJKFontSize size)
+{
+    if (!u8g2 || !isConnected) {
+        return;
+    }
+
+    // 设置韩文字体
+    setupKoreanFont(u8g2, size);
+    
+    // 绘制文本
+    u8g2->drawUTF8(x, y, text.c_str());
+}
+
+void U8g2Display::drawKoreanString(int16_t x, int16_t y, const char* text, CJKFontSize size)
+{
+    if (!u8g2 || !isConnected) {
+        return;
+    }
+
+    // 设置韩文字体
+    setupKoreanFont(u8g2, size);
+    
+    // 绘制文本
+    u8g2->drawUTF8(x, y, text);
+}
+
+int16_t U8g2Display::getCJKStringWidth(String text, CJKLanguage language, CJKFontSize size)
+{
+    if (!u8g2) return 0;
+    
+    // 设置CJK字体
+    setupCJKFont(u8g2, language, size);
+    
+    // 计算文本宽度
+    return u8g2->getUTF8Width(text.c_str());
+}
+
+int16_t U8g2Display::getCJKStringWidth(const char* text, CJKLanguage language, CJKFontSize size)
+{
+    if (!u8g2) return 0;
+    
+    // 设置CJK字体
+    setupCJKFont(u8g2, language, size);
+    
+    // 计算文本宽度
+    return u8g2->getUTF8Width(text);
+}
