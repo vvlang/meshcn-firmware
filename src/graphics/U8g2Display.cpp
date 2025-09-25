@@ -4,7 +4,7 @@
 #include <stdint.h>
 
 U8g2Display::U8g2Display(uint8_t type, int width, int height, OLEDDISPLAY_GEOMETRY geo, HW_I2C i2cInterface)
-    : OLEDDisplay(width, height)
+    : OLEDDisplay()
 {
     displayType = type;
     displayWidth = width;
@@ -12,8 +12,8 @@ U8g2Display::U8g2Display(uint8_t type, int width, int height, OLEDDISPLAY_GEOMET
     geometry = geo;
     i2c = i2cInterface;
     
-    // Initialize the display buffer
-    setBuffer(nullptr, width, height);
+    // Set geometry and initialize display
+    setGeometry(geo, width, height);
 }
 
 U8g2Display::~U8g2Display()
@@ -36,7 +36,10 @@ void U8g2Display::display()
         // Draw each pixel from the buffer
         for (int y = 0; y < displayHeight; y++) {
             for (int x = 0; x < displayWidth; x++) {
-                if (getPixel(x, y) == WHITE) {
+                // Check if pixel is set in the buffer
+                int byteIndex = (y * displayWidth + x) / 8;
+                int bitIndex = (y * displayWidth + x) % 8;
+                if (byteIndex < displayBufferSize && (buffer[byteIndex] & (1 << bitIndex))) {
                     u8g2->drawPixel(x, y);
                 }
             }

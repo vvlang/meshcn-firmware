@@ -23,10 +23,10 @@ class U8g2Display : public OLEDDisplay
     virtual void display() override;
     
     // Turn the display upside down
-    virtual void flipScreenVertically() override;
+    void flipScreenVertically();
     
     // Clear the display
-    virtual void clear() override;
+    void clear();
     
     // Set display brightness
     void setDisplayBrightness(uint8_t brightness);

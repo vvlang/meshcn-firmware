@@ -16,14 +16,14 @@ void U8g2SH1106Display::initDisplay()
 {
     // Initialize U8g2 SH1106 display based on geometry and interface
     if (geometry == GEOMETRY_128_64) {
-        if (i2c == HW_I2C) {
+        if (i2c == I2C_ONE) {
             u8g2 = new U8G2_SH1106_128X64_NONAME_F_HW_I2C(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
         } else {
             // SPI interface
             u8g2 = new U8G2_SH1106_128X64_NONAME_F_4W_HW_SPI(U8G2_R0, /* cs=*/ U8X8_PIN_NONE, /* dc=*/ U8X8_PIN_NONE, /* reset=*/ U8X8_PIN_NONE);
         }
     } else if (geometry == GEOMETRY_128_32) {
-        if (i2c == HW_I2C) {
+        if (i2c == I2C_ONE) {
             u8g2 = new U8G2_SH1106_128X32_VISIONOX_F_HW_I2C(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
         } else {
             // SPI interface
@@ -31,7 +31,7 @@ void U8g2SH1106Display::initDisplay()
         }
     } else {
         // Default to 128x64
-        if (i2c == HW_I2C) {
+        if (i2c == I2C_ONE) {
             u8g2 = new U8G2_SH1106_128X64_NONAME_F_HW_I2C(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
         } else {
             u8g2 = new U8G2_SH1106_128X64_NONAME_F_4W_HW_SPI(U8G2_R0, /* cs=*/ U8X8_PIN_NONE, /* dc=*/ U8X8_PIN_NONE, /* reset=*/ U8X8_PIN_NONE);
