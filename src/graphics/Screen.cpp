@@ -335,6 +335,12 @@ Screen::Screen(ScanI2C::DeviceAddress address, meshtastic_Config_DisplayConfig_O
 #elif defined(USE_EINK) && defined(USE_EINK_DYNAMICDISPLAY)
     dispdev = new EInkDynamicDisplay(address.address, -1, -1, geometry,
                                      (address.port == ScanI2C::I2CPort::WIRE1) ? HW_I2C::I2C_TWO : HW_I2C::I2C_ONE);
+#elif defined(USE_U8G2_SSD1306)
+    dispdev = new U8g2SSD1306Display(address.address, -1, -1, geometry,
+                                     (address.port == ScanI2C::I2CPort::WIRE1) ? HW_I2C::I2C_TWO : HW_I2C::I2C_ONE);
+#elif defined(USE_U8G2_SH1106)
+    dispdev = new U8g2SH1106Display(address.address, -1, -1, geometry,
+                                    (address.port == ScanI2C::I2CPort::WIRE1) ? HW_I2C::I2C_TWO : HW_I2C::I2C_ONE);
 #elif defined(USE_ST7567)
     dispdev = new ST7567Wire(address.address, -1, -1, geometry,
                              (address.port == ScanI2C::I2CPort::WIRE1) ? HW_I2C::I2C_TWO : HW_I2C::I2C_ONE);
@@ -515,6 +521,8 @@ void Screen::setup()
     // === Apply loaded brightness ===
 #if defined(ST7789_CS)
     static_cast<TFTDisplay *>(dispdev)->setDisplayBrightness(brightness);
+#elif defined(USE_U8G2_SSD1306) || defined(USE_U8G2_SH1106)
+    static_cast<U8g2Display *>(dispdev)->setDisplayBrightness(brightness);
 #elif defined(USE_OLED) || defined(USE_SSD1306) || defined(USE_SH1106) || defined(USE_SH1107) || defined(USE_SPISSD1306)
     dispdev->setBrightness(brightness);
 #endif
