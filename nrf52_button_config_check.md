@@ -81,12 +81,48 @@
 
 ### P1.06 左按钮 (BUTTON_LEFT_PIN) - 新增
 - 短按: `INPUT_BROKER_LEFT` (向左导航)
-- 长按: `INPUT_BROKER_BOOTLOADER` (进入刷机模式)
+- 长按: `INPUT_BROKER_BOOTLOADER` (进入UF2 DFU模式)
 - 长按时间: 3000ms (3秒)
+- **DFU模式特点**: 设备重启后在电脑上显示为可移动磁盘，可直接拖拽`.uf2`固件文件进行刷机
 
 ### P1.07 右按钮 (BUTTON_RIGHT_PIN) - 新增
 - 短按: `INPUT_BROKER_RIGHT` (向右导航)
 - 长按: `INPUT_BROKER_NONE` (无功能)
+
+---
+
+## 🔧 P1.06 UF2 DFU模式功能
+
+### 功能说明
+P1.06长按进入UF2 DFU模式，提供便捷的固件更新方式。设备重启后会在电脑上显示为可移动磁盘，用户可以直接拖拽固件文件进行刷机。
+
+### UF2 DFU模式特点
+1. **Mass Storage设备**: 设备在DFU模式下作为USB大容量存储设备出现
+2. **拖拽刷机**: 支持直接拖拽`.uf2`格式固件文件进行更新
+3. **跨平台支持**: 支持Windows、macOS、Linux系统
+4. **用户友好**: 类似U盘操作，无需特殊工具
+
+### 使用方法
+1. **进入DFU模式**: 长按P1.06按钮3秒
+2. **设备重启**: 系统显示"Entering Bootloader Mode"后自动重启
+3. **连接电脑**: 通过USB连接设备到电脑
+4. **识别设备**: 电脑识别为可移动磁盘（通常名为"FEATHERBOOT"）
+5. **拖拽固件**: 将`.uf2`固件文件直接拖拽到设备磁盘
+6. **自动刷机**: 设备自动完成固件更新并重启
+
+### 技术实现
+```cpp
+// DFU魔法数字设置
+constexpr uint32_t DFU_MAGIC_BOOTLOADER = 0x4e;
+sd_power_gpregret_clr(0, 0xFF);
+sd_power_gpregret_set(0, DFU_MAGIC_BOOTLOADER);
+NVIC_SystemReset();
+```
+
+### 固件文件格式
+- **编译生成**: `firmware-nrf52_promicro_diy_tcxo-*.uf2`
+- **UF2转换**: 使用`bin/uf2conv.py`脚本转换HEX到UF2格式
+- **设备支持**: nRF52系列使用family ID `0x1B57745F`
 
 ---
 
@@ -212,7 +248,7 @@ rightConfig.longPress = INPUT_BROKER_NONE;
 | **P1.00** | 确认选择 | 关机 | 重启设备 ✅ | 3秒 |
 | **P1.01** | 向上导航 | 切换GPS模式 | 无 | 3秒 |
 | **P1.02** | 向下导航 | 发送adhoc ping | 无 | 3秒 |
-| **P1.06** | 向左导航 | 进入刷机模式 | 无 | 3秒 |
+| **P1.06** | 向左导航 | 进入UF2 DFU模式 ✅ | 无 | 3秒 |
 | **P1.07** | 向右导航 | 无功能 | 无 | - |
 
 ### 事件处理
