@@ -6,6 +6,7 @@
  */
 
 #include "MessageRendererU8g2.h"
+#include "MessageRenderer.h"
 #include "../U8g2Display.h"
 #include "../U8g2ChineseFonts.h"
 #include "../emotes.h"

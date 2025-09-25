@@ -12,24 +12,24 @@
 
 // CJK字体选择 - 使用U8g2库中实际可用的字体
 // 文泉驿字体 - 中文支持
-#define U8G2_CHINESE_FONT u8g2_font_wqy12_t_chinese1
-#define U8G2_CHINESE_FONT_10 u8g2_font_wqy12_t_chinese1  // 使用12px字体作为小字体
-#define U8G2_CHINESE_FONT_14 u8g2_font_wqy12_t_chinese1  // 使用12px字体作为大字体
+#define U8G2_CHINESE_FONT u8g2_font_wqy16_t_gb2312
+#define U8G2_CHINESE_FONT_10 u8g2_font_wqy12_t_gb2312  // 小字体
+#define U8G2_CHINESE_FONT_14 u8g2_font_wqy16_t_gb2312  // 大字体
 
 // 日文字体支持 - 使用中文字体作为基础
-#define U8G2_JAPANESE_FONT u8g2_font_wqy12_t_chinese1
-#define U8G2_JAPANESE_FONT_10 u8g2_font_wqy12_t_chinese1
-#define U8G2_JAPANESE_FONT_14 u8g2_font_wqy12_t_chinese1
+#define U8G2_JAPANESE_FONT u8g2_font_wqy16_t_gb2312
+#define U8G2_JAPANESE_FONT_10 u8g2_font_wqy12_t_gb2312
+#define U8G2_JAPANESE_FONT_14 u8g2_font_wqy16_t_gb2312
 
 // 韩文字体支持 - 使用中文字体作为基础
-#define U8G2_KOREAN_FONT u8g2_font_wqy12_t_chinese1
-#define U8G2_KOREAN_FONT_10 u8g2_font_wqy12_t_chinese1
-#define U8G2_KOREAN_FONT_14 u8g2_font_wqy12_t_chinese1
+#define U8G2_KOREAN_FONT u8g2_font_wqy16_t_gb2312
+#define U8G2_KOREAN_FONT_10 u8g2_font_wqy12_t_gb2312
+#define U8G2_KOREAN_FONT_14 u8g2_font_wqy16_t_gb2312
 
 // 通用CJK字体（支持中日韩）
-#define U8G2_CJK_FONT u8g2_font_wqy12_t_chinese1
-#define U8G2_CJK_FONT_10 u8g2_font_wqy12_t_chinese1
-#define U8G2_CJK_FONT_14 u8g2_font_wqy12_t_chinese1
+#define U8G2_CJK_FONT u8g2_font_wqy16_t_gb2312
+#define U8G2_CJK_FONT_10 u8g2_font_wqy12_t_gb2312
+#define U8G2_CJK_FONT_14 u8g2_font_wqy16_t_gb2312
 
 // 字体大小枚举
 enum class CJKFontSize {

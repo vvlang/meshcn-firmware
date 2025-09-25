@@ -20,8 +20,11 @@ U8g2Display::U8g2Display(uint8_t type, int width, int height, OLEDDISPLAY_GEOMET
 U8g2Display::~U8g2Display()
 {
     if (u8g2) {
-        delete u8g2;
+        // 使用静态转换避免多态删除警告
+        // U8G2的具体类型在子类中确定，这里删除是安全的
+        U8G2* u8g2_ptr = u8g2;
         u8g2 = nullptr;
+        delete u8g2_ptr;
     }
 }
 
@@ -40,10 +43,10 @@ void U8g2Display::drawString(int16_t x, int16_t y, String text)
     if (!u8g2 || !isConnected) {
         return;
     }
-    
+
     // Ensure Chinese font is set before drawing
     setupChineseFont(u8g2);
-    
+
     // Use U8g2's UTF-8 support for Chinese characters
     u8g2->drawUTF8(x, y, text.c_str());
 }
@@ -53,10 +56,10 @@ void U8g2Display::drawString(int16_t x, int16_t y, const char* text)
     if (!u8g2 || !isConnected) {
         return;
     }
-    
+
     // Ensure Chinese font is set before drawing
     setupChineseFont(u8g2);
-    
+
     // Use U8g2's UTF-8 support for Chinese characters
     u8g2->drawUTF8(x, y, text);
 }

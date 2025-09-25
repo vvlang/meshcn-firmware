@@ -39,12 +39,12 @@ void U8g2SH1106Display::initDisplay()
         }
     }
     
-    if (u8g2) {
-        u8g2->begin();
-        u8g2->setContrast(255);
-        u8g2->setFlipMode(0);
-        
-        // 设置中文字体支持
-        setupChineseFont(u8g2);
-    }
+           if (u8g2) {
+               u8g2->begin();
+               u8g2->setContrast(255);
+               u8g2->setFlipMode(0);
+
+               // 设置中文字体支持
+               setupChineseFont(u8g2);
+           }
 }
