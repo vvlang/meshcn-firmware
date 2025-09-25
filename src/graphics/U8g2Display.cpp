@@ -1,5 +1,6 @@
 #include "configuration.h"
 #include "U8g2Display.h"
+#include "U8g2ChineseFonts.h"
 #include "main.h"
 #include <stdint.h>
 
@@ -30,21 +31,34 @@ void U8g2Display::display()
         return;
     }
     
-    // Convert OLEDDisplay buffer to U8g2 format and display
-    u8g2->firstPage();
-    do {
-        // Draw each pixel from the buffer
-        for (int y = 0; y < displayHeight; y++) {
-            for (int x = 0; x < displayWidth; x++) {
-                // Check if pixel is set in the buffer
-                int byteIndex = (y * displayWidth + x) / 8;
-                int bitIndex = (y * displayWidth + x) % 8;
-                if (byteIndex < displayBufferSize && (buffer[byteIndex] & (1 << bitIndex))) {
-                    u8g2->drawPixel(x, y);
-                }
-            }
-        }
-    } while (u8g2->nextPage());
+    // U8g2 manages its own buffer, so we just need to send it to the display
+    u8g2->sendBuffer();
+}
+
+void U8g2Display::drawString(int16_t x, int16_t y, String text)
+{
+    if (!u8g2 || !isConnected) {
+        return;
+    }
+    
+    // Ensure Chinese font is set before drawing
+    setupChineseFont(u8g2);
+    
+    // Use U8g2's UTF-8 support for Chinese characters
+    u8g2->drawUTF8(x, y, text.c_str());
+}
+
+void U8g2Display::drawString(int16_t x, int16_t y, const char* text)
+{
+    if (!u8g2 || !isConnected) {
+        return;
+    }
+    
+    // Ensure Chinese font is set before drawing
+    setupChineseFont(u8g2);
+    
+    // Use U8g2's UTF-8 support for Chinese characters
+    u8g2->drawUTF8(x, y, text);
 }
 
 void U8g2Display::flipScreenVertically()

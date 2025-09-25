@@ -71,6 +71,7 @@ build_flags =
 - **Brightness Control**: Full brightness control support
 - **Font Support**: Access to U8g2's extensive font library
 - **Graphics Functions**: All U8g2 drawing functions available
+- **Chinese Character Support**: Built-in UTF-8 Chinese font support
 
 ## Technical Details
 
@@ -137,6 +138,51 @@ class U8g2ST7567Display : public U8g2Display
 - Verify display geometry matches hardware
 - Test with simple U8g2 examples first
 
+## Chinese Character Support
+
+### Overview
+
+The U8g2 implementation includes built-in support for Chinese characters using UTF-8 encoding. This solves the issue of Chinese text appearing as inverted question marks (¿) on standard OLED displays.
+
+### Features
+
+- **UTF-8 Support**: Full UTF-8 Chinese character rendering
+- **Built-in Font**: Uses `u8g2_font_wqy12_t_chinese1` font for Chinese text
+- **Automatic Setup**: Chinese font is automatically configured during display initialization
+- **Compatible Interface**: Works with existing Meshtastic text rendering
+
+### Usage
+
+Chinese characters are automatically supported when using U8g2 display classes. No additional configuration is needed:
+
+```cpp
+// Chinese text will display correctly
+display->drawString(0, 20, "你好世界");  // Hello World in Chinese
+display->drawString(0, 35, "测试中文");  // Test Chinese
+```
+
+### Technical Details
+
+The Chinese font support is implemented through:
+
+1. **Font Setup**: `setupChineseFont()` function configures the Chinese font
+2. **UTF-8 Rendering**: `drawChineseString()` function handles UTF-8 text
+3. **Automatic Integration**: Chinese font is set during display initialization
+
+### Testing Chinese Display
+
+Use the provided test functions to verify Chinese character display:
+
+```cpp
+#include "U8g2ChineseTest.h"
+
+// Test basic Chinese display
+testChineseDisplay();
+
+// Test using wrapper functions  
+testChineseString();
+```
+
 ## Examples
 
 ### Basic Usage
@@ -156,6 +202,20 @@ U8G2* u8g2 = u8g2Display->getU8g2();
 // Use U8g2 drawing functions
 u8g2->setFont(u8g2_font_ncenB14_tr);
 u8g2->drawStr(0, 20, "Hello U8g2!");
+```
+
+### Chinese Text Display
+
+```cpp
+// Chinese characters will display correctly with U8g2
+U8g2Display* u8g2Display = static_cast<U8g2Display*>(screen->getDisplayDevice());
+U8G2* u8g2 = u8g2Display->getU8g2();
+
+// Direct UTF-8 rendering
+u8g2->drawUTF8(0, 20, "你好世界");
+
+// Or use the wrapper function
+drawChineseString(u8g2, 0, 35, "测试中文");
 ```
 
 ## Resources

@@ -1,5 +1,6 @@
 #include "configuration.h"
 #include "U8g2SSD1306Display.h"
+#include "U8g2ChineseFonts.h"
 
 U8g2SSD1306Display::U8g2SSD1306Display(uint8_t type, int width, int height, OLEDDISPLAY_GEOMETRY geo, HW_I2C i2cInterface)
     : U8g2Display(type, width, height, geo, i2cInterface)
@@ -42,5 +43,8 @@ void U8g2SSD1306Display::initDisplay()
         u8g2->begin();
         u8g2->setContrast(255);
         u8g2->setFlipMode(0);
+        
+        // 设置中文字体支持
+        setupChineseFont(u8g2);
     }
 }

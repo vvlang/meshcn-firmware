@@ -9,6 +9,8 @@
  * 
  * This adapter provides a bridge between the U8g2 graphics library and the Meshtastic OLEDDisplay interface,
  * enabling support for various display controllers like SSD1306, SH1106, ST7567, etc.
+ * 
+ * U8g2 provides excellent Chinese character support through its built-in font system.
  */
 class U8g2Display : public OLEDDisplay
 {
@@ -33,6 +35,13 @@ class U8g2Display : public OLEDDisplay
     
     // Set detected status
     void setDetected(uint8_t detected);
+    
+    // Text drawing methods to use U8g2's Chinese font support
+    void drawString(int16_t x, int16_t y, String text);
+    void drawString(int16_t x, int16_t y, const char* text);
+    
+    // Get U8g2 object for direct access
+    U8G2* getU8g2() { return u8g2; }
 
   protected:
     // the header size of the buffer used, e.g. for the SPI command header
