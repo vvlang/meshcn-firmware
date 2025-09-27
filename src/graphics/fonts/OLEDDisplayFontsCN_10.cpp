@@ -1,14 +1,16 @@
-#include <Arduino.h>
+#ifdef OLED_CN
+
+#include "OLEDDisplayFontsCN.h"
 
 // 中文字体 - 10pt
 // 包含 808 个常用汉字
-// 生成时间: 2025-09-25 16:20:19
+// 生成时间: 2025-09-27 02:05:37
 
 const uint8_t ArialMT_Plain_10_CN[] PROGMEM = {
-     10, // Width: 10
-     10, // Height: 10
+    0x0A, // Width: 10
+    0x0D, // Height: 13
     0x20, // First char: 32
-    0x28, // Number of chars: 40 (truncated from 808)
+    0xE0, // Number of chars: 224
 
     // Jump Table:
     0x00, 0x00, 0x0A, 0x05, // 一 (U+4E00)
@@ -3246,3 +3248,5 @@ const uint8_t ArialMT_Plain_10_CN[] PROGMEM = {
     0x00, 0x80, 0x78, 0xA8, 0x2F, 0xAA, 0x2A, 0x7A, 0x82, 0x00,
 
 };
+
+#endif // OLED_CN

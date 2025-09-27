@@ -10,13 +10,13 @@
 #define PROMICRO_DIY_TCXO
 
 // 启用中文字体支持
-#define OLED_CN
+// #define OLED_CN
 
 /*----------------------------------------------------------------------------
  *        Headers
  *----------------------------------------------------------------------------*/
 
-#include "WVariant.h"
+// #include "WVariant.h"  // File not found, commented out
 
 #ifdef __cplusplus
 extern "C" {

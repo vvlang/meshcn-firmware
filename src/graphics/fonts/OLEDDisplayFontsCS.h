@@ -5,6 +5,10 @@
 #include <Arduino.h>
 #elif __MBED__
 #define PROGMEM
+#include <stdint.h>
+#else
+#include <stdint.h>
+#define PROGMEM
 #endif
 
 /**
