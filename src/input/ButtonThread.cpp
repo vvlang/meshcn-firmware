@@ -99,11 +99,11 @@ bool ButtonThread::initButton(const ButtonConfig &config)
 #endif
     userButton.setPressMs(_longPressTime);
     
-    // 设置双击检测时间
+    // 设置单击检测时间 - 缩短延迟提高响应速度
     if (screen) {
-        userButton.setClickMs(600);  // 有屏幕时使用600ms
+        userButton.setClickMs(200);  // 有屏幕时使用200ms，提高响应速度
     } else {
-        userButton.setClickMs(600);  // 无屏幕时也使用600ms，确保双击检测可靠
+        userButton.setClickMs(200);  // 无屏幕时也使用200ms，提高响应速度
     }
     attachButtonInterrupts();
 #ifdef ARCH_ESP32
